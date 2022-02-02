@@ -6,9 +6,15 @@ function Searchbar(props) {
 	
 	async function getShortUrl() {
 		try {
-			let shortUrl = await axios.post('/create', {long_url: url})
-			shortUrl = shortUrl.data.short_url
-			props.setList(state => [{ url: url, long_url: `http://127.0.0.1:5000/${shortUrl}`, short: shortUrl}, ...state])
+			let { data } = await axios.post('/create', { long_url: url })
+			props.setList(state => [
+				{
+					url: url,
+					generated_url: data.url,
+				},
+				...state
+			])
+
 			setUrl('')
 		} catch(e) {
 				console.log(e.message)

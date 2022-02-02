@@ -24,12 +24,13 @@ def bounce(url):
 @app.route('/create', methods=['POST'])
 def create():
     res, code = urls.create_short_url(request.get_json())
-    return jsonify(res), code
+    res = request.url_root + res
+    return jsonify({'url': res}), code
 
 
 @app.errorhandler(exceptions.NotFound)
 def handle_404(err):
-    return {'message': f'Oops! {err}'}, 404
+    return redirect('http://localhost:3000')
 
 @app.errorhandler(exceptions.BadRequest)
 def handle_400(err):

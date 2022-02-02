@@ -23,10 +23,10 @@ def get_all():
     return {'entries': list(col.find({}, {'_id': 0}))}, 200
 
 def create_short_url(req):
-    shortUrl = getShortUrl()
-    res = col.insert_one({'long_url': req['long_url'], 'short_url': shortUrl})
+    short_url = getShortUrl()
+    res = col.insert_one({'long_url': req['long_url'], 'short_url': short_url})
     if res.inserted_id:
-        return {'short_url': shortUrl }, 200
+        return short_url, 201
     else:
         raise InternalServerError("Could not create entry")
 
@@ -34,6 +34,6 @@ def create_short_url(req):
 def find_by_short_url(short_url):
     res = col.find_one({'short_url': short_url}, {'_id': 0, 'long_url': 1})
     if res is None:
-        raise NotFound(f"We don't have a short url for this url: {short_url}!")
+        raise NotFound()
     else:
         return res['long_url']

@@ -1,37 +1,30 @@
 # url-short
-a url shortener, react front end and python backend
+A url shortener, React frontend and Python backend with data stored to MongoDB.
 
-# Getting Started with Create React App
+- Users can submit a url and a server generated url will display.
+- The generated url can be clicked on or can be copied to the clipboard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Installation & Usage
+- Clone the repo
+- Navigate to the cloned folder
 
-## Available Scripts
+### Docker
+- Navigate to the server folder
+- Start a mongodb docker container `docker run --name mongodb -d -p 27017:27017 mongo`
+- When finished stop and remove docker container `docker stop mongodb && docker container rm mongodb`
 
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-
-
-# Run Demo
-
+### Python server
 _NB: These instructions assume you have Pipenv installed within your current version of Python. For non-Pipenv users, a `requirements.txt` is provided, including dev dependencies._
+- Navigate to the server folder
 - `pipenv shell`
 - `pipenv install --dev`
 - Run dev server with `pipenv run dev`
-- Run prod server with `pipenv run start`
-- Run tests with `pipenv run test`
-- Get coverage report with `pipenv run coverage`
 
-- Start mongodb docker container `docker run --name mongodb -d -p 27017:27017 mongo`
-- Stop and remove docker `docker stop mongodb && docker container rm mongodb`
+### React client
+- Navigate to the client folder
+- Run `npm install` to install dependencies
+- Run `npm start`. Runs the app in development mode. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-Available routes: \
-`GET`, `POST`: `/api/cats` \
-`GET`, `PATCH`, `PUT` ,`DELETE`: `/api/cats/:id`
+
+## Wins & Challenges
+- Managed to implement all functionality

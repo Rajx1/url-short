@@ -9,7 +9,7 @@ function App() {
 	return (
    	<div>
       	<header className="w3-center w3-padding-48">
-    			<h2>URL Short</h2>
+    			<h2 className="w3-text-dark-grey">URL Short</h2>
       	</header>
       	<main className="w3-content w3-container">
         		<Searchbar setList={setList}/>
