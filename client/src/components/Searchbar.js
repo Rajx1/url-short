@@ -1,12 +1,23 @@
 import { useState} from 'react'
+import { axios_helper as axios } from '../utils/axios_helper'
 
 function Searchbar(props) {
 	const [url, setUrl] = useState('')
-	  
+	
+	async function getShortUrl() {
+		try {
+			let shortUrl = await axios.post(`/create/${url}`)
+			shortUrl = shortUrl.data.short_url
+			props.setList(state => [{ url: url, short: shortUrl}, ...state])
+			setUrl('')
+		} catch(e) {
+				console.log(e.message)
+			}
+		}
+
 	const handleFormSubmit = e => {
 		e.preventDefault()
-		props.setList(state => [{ url: url, short: 'shortened'}, ...state])
-		setUrl('')
+		getShortUrl()
 	}
 
 	const handleInput = e => {
