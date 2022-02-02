@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, redirect, abort
+from flask import Flask, jsonify, request, redirect
 from flask_cors import CORS
 from controllers import urls
 from werkzeug import exceptions
@@ -17,13 +17,13 @@ def index():
     return jsonify(res), code
 
 @app.route('/<url>')
-def url(url):
+def bounce(url):
     redirect_path = urls.find_by_short_url(url)
     return redirect(redirect_path)
 
-@app.route('/create/<url>', methods=['POST'])
-def create(url):
-    res, code = urls.create_short_url(url)
+@app.route('/create', methods=['POST'])
+def create():
+    res, code = urls.create_short_url(request.get_json())
     return jsonify(res), code
 
 

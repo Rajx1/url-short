@@ -1,5 +1,5 @@
 ''' Cats controller '''
-from werkzeug.exceptions import BadRequest, NotFound, InternalServerError
+from werkzeug.exceptions import NotFound, InternalServerError
 from pymongo import MongoClient
 import random
 import string
@@ -22,10 +22,9 @@ def getShortUrl():
 def get_all():
     return {'entries': list(col.find({}, {'_id': 0}))}, 200
 
-def create_short_url(long_url):
-    # complete the logic to generate short url
+def create_short_url(req):
     shortUrl = getShortUrl()
-    res = col.insert_one({'longUrl': long_url, 'shortUrl': shortUrl})
+    res = col.insert_one({'long_url': req['long_url'], 'short_url': shortUrl})
     if res.inserted_id:
         return {'short_url': shortUrl }, 200
     else:
