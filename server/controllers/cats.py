@@ -4,50 +4,36 @@ from pymongo import MongoClient
 
 client = MongoClient('localhost', 27017)
 
-col = client.mydb.cats
+col = client.mydb.urls
 col.drop()
 
-cats = [
-    {'name': 'Zelda', 'age': 3},
-    {'name': 'Tigerlily', 'age': 9},
-    {'name': 'Salem', 'age': 500}
+urls = [
+    {'longUrl': 'www.bbc.co.uk', 'shortUrl': 'beeb'}
 ]
     
-col.insert_many(cats)
+col.insert_many(urls)
 
 def index(req):
     return {'entries': list(col.find({}, {'_id': 0}))}, 200
 
-def show(req, cat_name):
-    cat = col.find_one({'name': cat_name}, {'_id': 0})
-    if cat:
-        return cat, 200
+def show(req, long_url):
+    url = col.find_one({'longUrl': long_url})
+    if url:
+        return url, 200
     else:
-        raise BadRequest(f"We don't have that cat with name {cat_name}!")
+        create_short_url(req, long_url)
 
-def create(req):
-    res = col.insert_one(req.get_json())
+def create_short_url(long_url):
+    # complete the logic to generate short url
+    shortUrl = ''
+    res = col.insert_one({'longUrl': long_url, 'shortUrl': shortUrl})
     if res.inserted_id:
         return {'new entry': str(res.inserted_id)}, 200
     else:
         raise NotFound("Could not create entry")
 
-def update(req, cat_name):
-    res = col.update_one({'name': cat_name}, {'$set': req.get_json()})
-    if res.acknowledged:
-        return {'m': f"{cat_name} updated"}, 200
-    else:
-        raise NotFound("Could not update entry")
-
-def destroy(req, cat_name):
-    res = col.delete_one({'name': cat_name})
-    if res.deleted_count > 0:
-        return {'m': f'{cat_name} deleted'}, 204
-    else:
-        raise NotFound(f'Could not delete {cat_name} does not exist')
-
-def find_by_uid(uid):
+def find_by_long_url(long_url):
     try:
-        return next(cat for cat in cats if cat['id'] == uid)
+        return next(url for url in urls if urls['longUrl'] == long_url)
     except:
-        raise BadRequest(f"We don't have that cat with id {uid}!")
+        raise BadRequest(f"We don't have a short url for this url: {long_url}!")
