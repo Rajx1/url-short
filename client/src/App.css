@@ -1,0 +1,13 @@
+@media only screen and (min-width: 600px) {
+	.anchor {
+	  text-align: center;
+	}
+
+	.copy {
+		text-align: right;
+	}
+}
+
+.w3-btn {
+	width: 100%;
+}
